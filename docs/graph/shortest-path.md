@@ -442,6 +442,36 @@ Dijkstra（/ˈdikstrɑ/或/ˈdɛikstrɑ/）算法由荷兰计算机科学家 E. 
                         dis[v] = dis[u] + w
         ```
 
+ === "Java"
+   ```java
+   
+            Arrays.fill(dist, 0x3f3f); // 所有节点初始距离为无穷大
+            dist[1] = 0;               // 起点到自身距离为0
+            迭代寻找最短路径
+            Java
+            for (int i = 0; i < n; i++) { // 迭代n次（每次确定一个节点的最短路径）
+                int t = -1;
+                // 找到未确定最短路径的节点中距离最小的
+                for (int j = 1; j <= n; j++) {
+                    if (!st[j] && (t == -1 || dist[t] > dist[j])) {
+                        t = j;
+                    }
+                }
+                st[t] = true; // 标记该节点已确定最短路径
+            
+                // 通过节点t更新其他节点的距离
+                for (int j = 1; j <= n; j++) {
+                    dist[j] = Math.min(dist[j], dist[t] + g[t][j]);
+                }
+            }
+            贪心策略：每次选择未访问节点中距离最小的节点 t，认为此时 dist[t] 是最终最短距离。
+            松弛操作：通过 t 更新其他节点的距离（若经过 t 更短）。
+            结果判断
+            Java
+            if (dist[n] == 0x3f3f) return -1; // 终点不可达
+            return dist[n];
+         ```   
+
 ???+ note "优先队列实现"
     === "C++"
         ```cpp
